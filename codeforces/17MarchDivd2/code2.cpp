@@ -27,36 +27,46 @@ int main() {
         int n,k;
         cin>>n>>k;
         vint nums;
-        while(n--){
+        int temp=n ;
+        while(temp--){
             int x;
             cin>>x;
             nums.push_back(x);
         }
         vint copy=nums;
-        sort(nums.begin(),nums.end());
-        int sum;
-        if(copy==nums){
-            cout<<"hii";
-            sum=0;
-            int x;
-            for(int i=0;i<k;i++){
-                // cout<<nums[nums.size()-i-1]<<" ";
-                sum+=nums[nums.size()-i-1];
-                x=nums.size()-i-1;
+
+        if (k==1){
+            int maxElelemnt=0;
+            int maxIndex=0;
+            // cout<<nums[0]<<endl;
+            for(int i=0;i<n;i++){
+                if(maxElelemnt<nums[i]){
+                    maxElelemnt=nums[i];
+                    maxIndex=i;
+                }
             }
-            sum+=nums[x-1];
+            // cout<<"max element : "<<maxElelemnt<<endl;
+            if(maxIndex==0||maxIndex==n-1){
+                sort(nums.begin(),nums.end());
+                reverse(nums.begin(),nums.end());
+                cout<<nums[0]+nums[1]<<endl;
+            }
+            else{
+                cout<<maxElelemnt+max(nums[0],nums[n-1]);
+            }
         }
         else{
+            sort(nums.begin(),nums.end());
+            int sum=0;
             sum=0;
-
             for(int i=0;i<=k;i++){
-                // cout<<nums[nums.size()-i-1]<<" ";
                 sum+=nums[nums.size()-i-1];
             }
+            // cout<<"hii"<<endl;
+            cout<<sum<<endl;
         }
+
         
-        // cout<<endl;
-        cout<<sum<<endl;
     }
     return 0;
 }

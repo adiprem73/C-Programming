@@ -35,6 +35,7 @@ int main() {
             
         }
         else{
+            
             n-=k;
             cnt++;
             cnt+=(n/(k-1));

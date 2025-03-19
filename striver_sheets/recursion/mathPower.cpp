@@ -28,46 +28,38 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9 + 7;
 
-long long power(long long x, long long n)
+double myPow(double x, int n)
 {
-    ll result = 1;
-    while (n > 0)
-    {
-        if (n % 2 != 0)
-        {
-            result = (result * x) % MOD;
+
+    if(x==1.0){
+        return x;
+    }
+    long long N=n;
+    if(N<0){
+        x=1/x;
+        N=-1*N;
+    }
+
+    
+
+    double result=1.0;
+    while(N>0){
+        if(N%2!=0){
+            result*=x;
         }
-        x = (x * x) % MOD;
-        n /= 2;
+
+        x*=x;
+        N/=2;
     }
     return result;
-}
-
-int countGoodNumbers(long long n)
-{
-    ll a, b;
-    if (n % 2 == 0)
-    {
-        a = n / 2;
-        b = n / 2;
-    }
-    else
-    {
-        a = n / 2 + 1;
-        b = n / 2;
-    }
-    // cout << a << b << endl;
-    // cout << power(4, a) << endl;
-    
-    ll ans = (power(5, a) * power(4, b)) % MOD;
-
-    return ans;
 }
 
 int main()
 {
     FAST_IO;
-    cout << countGoodNumbers(50);
+    double x = 2.00;
+    int n = -2147483648;
+    cout << myPow(x, n);
     return 0;
 }
-// by ad73prem
+// by ad73prem

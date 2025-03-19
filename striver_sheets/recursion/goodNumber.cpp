@@ -30,15 +30,17 @@ const ll MOD = 1e9 + 7;
 
 long long power(long long x, long long n)
 {
-    ll result = 1;
-    while (n > 0)
+    ll N = n;
+    ll result = 1.0;
+    while (N > 0)
     {
-        if (n % 2 != 0)
+        if (N % 2 != 0)
         {
             result = (result * x) % MOD;
         }
+
+        N /= 2;
         x = (x * x) % MOD;
-        n /= 2;
     }
     return result;
 }
@@ -58,8 +60,8 @@ int countGoodNumbers(long long n)
     }
     // cout << a << b << endl;
     // cout << power(4, a) << endl;
-    
-    ll ans = (power(5, a) * power(4, b)) % MOD;
+
+    ll ans = (power(4, b) * power(5, a)) % MOD;
 
     return ans;
 }
@@ -67,7 +69,7 @@ int countGoodNumbers(long long n)
 int main()
 {
     FAST_IO;
-    cout << countGoodNumbers(50);
+    cout << countGoodNumbers(1\);
     return 0;
 }
-// by ad73prem
+// by ad73prem

@@ -9,6 +9,14 @@ using namespace std;
     for (auto &elem : v)     \
         cout << elem << " "; \
     cout << endl;
+#define vmatprint(vv)            \
+    for (auto &row : vv)         \
+    {                            \
+        for (auto &elem : row)   \
+            cout << elem << " "; \
+        cout << endl;            \
+    }                            \
+    cout << endl;
 #define mprint(m)                                       \
     for (auto it : m)                                   \
         cout << it.first << " : " << it.second << endl; \
@@ -28,46 +36,45 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9 + 7;
 
-long long power(long long x, long long n)
+void subsetGenerate(vmat &ans, vint curr, int i, vint nums)
 {
-    ll result = 1;
-    while (n > 0)
+    if (i == nums.size())
     {
-        if (n % 2 != 0)
-        {
-            result = (result * x) % MOD;
-        }
-        x = (x * x) % MOD;
-        n /= 2;
+        ans.push_back(curr);
+        return;
     }
-    return result;
+
+    curr.push_back(nums[i]);
+    subsetGenerate(ans, curr, i + 1, nums);
+    curr.pop_back();
+    subsetGenerate(ans, curr, i + 1, nums);
 }
 
-int countGoodNumbers(long long n)
+vector<vector<int>> subsetsWithDup(vector<int> &nums)
 {
-    ll a, b;
-    if (n % 2 == 0)
+    vint curr;
+    vmat ans;
+    subsetGenerate(ans, curr, 0, nums);
+    set<vector<int>> setA;
+    for (int i = 0; i < ans.size(); i++)
     {
-        a = n / 2;
-        b = n / 2;
+        sort(ans[i].begin(),ans[i].end());
+        setA.insert(ans[i]);
     }
-    else
+    ans = {};
+    for (auto it : setA)
     {
-        a = n / 2 + 1;
-        b = n / 2;
+        ans.push_back(it);
     }
-    // cout << a << b << endl;
-    // cout << power(4, a) << endl;
-    
-    ll ans = (power(5, a) * power(4, b)) % MOD;
-
     return ans;
 }
 
 int main()
 {
     FAST_IO;
-    cout << countGoodNumbers(50);
+    vint nums = {4,4,4,1,4};
+    vmat res = subsetsWithDup(nums);
+    vmatprint(res);
     return 0;
 }
 // by ad73prem

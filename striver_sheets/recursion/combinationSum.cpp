@@ -38,29 +38,21 @@ const ll MOD = 1e9 + 7;
 
 void generateCombination(int index, int target, vint &curr, vint &nums, vmat &ans)
 {
-    // Base case: if target is achieved, add the current combination to the result
-    if (target == 0)
-    {
+    if(target==0){
         ans.push_back(curr);
         return;
     }
 
-    // Iterate through the array starting from the current index
-    for (int i = index; i < nums.size(); i++)
-    {
-        // Skip duplicates to avoid duplicate combinations
-        if (i > index && nums[i] == nums[i - 1])
+    for(int i=index; i<nums.size();i++){
+        if(i>index &&  nums[i]==nums[i-1]){
             continue;
-
-        // If the current number is greater than the target, break
-        if (nums[i] > target)
+        }
+        if(nums[i]>target){
             break;
+        }
 
-        // Pick the current element
         curr.push_back(nums[i]);
-        // Recur with the next index to avoid reusing the same element
-        generateCombination(i + 1, target - nums[i], curr, nums, ans);
-        // Backtrack: remove the last element to try other combinations
+        generateCombination(i+1,target-nums[i],curr,nums,ans);
         curr.pop_back();
     }
 }
@@ -69,19 +61,18 @@ vector<vector<int>> combinationSum2(vector<int> &candidates, int target)
 {
     vint curr;
     vmat ans;
-    // Sort the candidates to handle duplicates
-    sort(candidates.begin(), candidates.end());
-    // Generate combinations
+    sort(candidates.begin(),candidates.end());
     generateCombination(0, target, curr, candidates, ans);
-    return ans; // Return the result
+    return ans;
 }
 
 int main()
 {
     FAST_IO;
-    vint candidates = {2, 5, 2, 1, 2};
+    vint candidates = {2,5,2,1,2};
     int target = 5;
     vmat ans = combinationSum2(candidates, target);
     vmatprint(ans);
     return 0;
 }
+// by ad73prem

@@ -24,6 +24,9 @@ string infixToPost(string s){
     stack<char> st;
     string ans="";
 
+
+
+    
     while(i<s.length()){
         
     }

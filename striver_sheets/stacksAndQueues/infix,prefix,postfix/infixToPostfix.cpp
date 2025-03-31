@@ -19,22 +19,67 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
+int priority(char c){
+    if(c=='^'){
+        return 3;
+    }   
+    else if(c=='*'||c=='/'){
+        return 2;
+    }   
+    if(c=='+'||c=='-'){
+        return 1;
+    }return -1;
+}
+
 string infixToPost(string s){
     int i=0;
     stack<char> st;
     string ans="";
 
-
+    
 
     
     while(i<s.length()){
+        if((s[i]>='A'&& s[i]<='Z')||(s[i]>='a'&& s[i]<='z')||(s[i]>='0'&& s[i]<='9')){
+            ans+=s[i];
+        }
+
+        else if(s[i]=='('){
+            st.push(s[i]);
+        }
+
+        else if(s[i]==')'){
+            while(!st.empty()&&st.top()!='('){
+                ans+=st.top();
+                st.pop();
+            }
+            st.pop();
+        }
+
+
+        //operators
+        else{
+            while(!st.empty()&&priority(s[i])<=priority(st.top())){
+                ans+=st.top();
+                st.pop();
+            }
+            st.push(s[i]);
+        }
+        i++;
         
     }
+    while(!st.empty()){
+        ans=ans+st.top();
+        st.pop();
+    }
+    return ans;
 }
 
 int main() {
     FAST_IO;
-    
+    string s="a+b*(c^d-e)";
+    string sin=infixToPost(s);
+    cout<<sin;
     return 0;
 }
 //by ad73prem

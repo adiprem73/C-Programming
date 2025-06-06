@@ -19,9 +19,27 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
+vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    int n=nums.size();
+    vint ans;
+    for(int i=0;i<n-k+1;i++){
+        int count=0;
+        int maxNo=-1*INT16_MAX;
+        while(count<k){
+            int x=nums[i+count];
+            maxNo=max(maxNo,nums[i+count]);
+            // cout<<x<<" ";
+            count++;
+        }
+        ans.push_back(maxNo);
+    }   
+    return ans;
+}
+
 int main() {
     FAST_IO;
-    
+    vint nums={1,3,-1,-3,5,3,6,7};
+    vprint(maxSlidingWindow(nums,3));
     return 0;
 }
 //by ad73prem

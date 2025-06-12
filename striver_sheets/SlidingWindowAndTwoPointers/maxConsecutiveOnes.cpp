@@ -19,33 +19,31 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-int lengthOfLongestSubstring(string s) {
-    int l=0,r=0;
-    int maxLen=0;
-    int len=0;
-    map<char,int> mp;
-    while(r<s.length()){
-        
-        if(mp.find(s[r])!=mp.end()){
-            l=max(l,mp[s[r]]+1);
+int longestOnes(vector<int>& nums, int k) {
+    int l=0,r=0,maxLen=0;
+    int count=0;
+    while(r<nums.size()){
+        if(nums[r]==0){
+            count++;
         }
 
-        mp[s[r]]=r;
+        if(count>k){
+            if(nums[l]==0){
+                count--;
+            }
+            l++;
+        }
 
-        len=r-l+1;
-        maxLen=max(len,maxLen);
-
-        // cout<<"r: "<<r<<" l: "<<l<<" len: "<<len<<" maxlen: "<<maxLen<<endl;
+        maxLen=max(maxLen,r-l+1);
         r++;
-    }
+    } 
     return maxLen;
 }
 
 int main() {
     FAST_IO;
-    string s;
-    cin>>s;
-    cout<<lengthOfLongestSubstring(s);
+    vector<int> nums={0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1};
+    cout<<longestOnes(nums,3);
     return 0;
 }
 //by ad73prem

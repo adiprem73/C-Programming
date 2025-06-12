@@ -19,34 +19,26 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-int totalFruits(vector<int>& fruits){
+int numSubarraysWithSum(vector<int>& nums, int goal) {
     int l=0,r=0;
-    int maxLen=0;
-    map<int,int> mp;
+    int sum=0;
+    int count=0;
+    while(r<nums.size()){
+        sum+=nums[r];//chage
 
-    while(r<fruits.size()){
-        
-        while(mp.size()>2){
-            mp[fruits[l]]--;
-            if(mp[fruits[l]]==0){
-                mp.erase(fruits[l]);
-            }
+        while(sum >= goal){
+            sum=sum-nums[l];
             l++;
         }
-        mp[fruits[r]]++;
-        if(mp.size()<=2){
-            maxLen=max(maxLen,r-l+1);
-        }
-        
         r++;
     }
-    return maxLen;
+    return count;
 }
 
 int main() {
     FAST_IO;
-    vector<int> nums={1,2,3,2,2};
-    cout<<totalFruits(nums);
+    vint nums={1,0,1,0,1};
+    cout<<numSubarraysWithSum(nums,2);
     return 0;
 }
 //by ad73prem

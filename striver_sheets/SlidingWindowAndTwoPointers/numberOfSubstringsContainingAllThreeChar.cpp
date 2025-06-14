@@ -19,31 +19,32 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-int atMost(vector<int>& nums, int goal) {
-    int l=0,r=0;
-    int sum=0;
-    int count=0;
-    while(r<nums.size()){
-        sum+=nums[r];
+int numberOfSubstrings(string s) {
+    int l=0,r=0,count=0,length=0;
+    map<char,int> mp;
+    
+    while(r<s.length()){
+        if(mp.size()==3){
+            count++;
+        }
 
-        while(sum > goal){
-            sum=sum-nums[l];
+        while(length>=3){
+            mp[s[l]]--;
+            if(mp[s[l]]==0){
+                mp.erase(s[l]);
+            }
             l++;
         }
-        count+=r-l+1;
+
+        mp[s[r]]++;
         r++;
     }
     return count;
 }
 
-int numSubarraysWithSum(vector<int>& nums, int goal){
-    return atMost(nums,goal)-atMost(nums,goal-1);
-}
-
 int main() {
     FAST_IO;
-    vint nums={1,0,1,0,1};
-    cout<<numSubarraysWithSum(nums,2);
+    cout<<numberOfSubstrings("abcabc");
     return 0;
 }
 //by ad73prem

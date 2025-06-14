@@ -19,31 +19,34 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-int atMost(vector<int>& nums, int goal) {
-    int l=0,r=0;
-    int sum=0;
-    int count=0;
+int atMostkOdds(vector<int>& nums, int k) {
+    int l=0,r=0,countofodd=0,count=0;
     while(r<nums.size()){
-        sum+=nums[r];
+        if(nums[r]%2!=0){
+            countofodd++;
+        }
 
-        while(sum > goal){
-            sum=sum-nums[l];
+        while(countofodd>k){
+            if(nums[l]%2!=0){
+                countofodd--;
+            }
             l++;
         }
+        
         count+=r-l+1;
         r++;
     }
     return count;
 }
 
-int numSubarraysWithSum(vector<int>& nums, int goal){
-    return atMost(nums,goal)-atMost(nums,goal-1);
+int numberOfSubarrays(vector<int>& nums,int k){
+    return atMostkOdds(nums,k)-atMostkOdds(nums,k-1);
 }
 
 int main() {
     FAST_IO;
-    vint nums={1,0,1,0,1};
-    cout<<numSubarraysWithSum(nums,2);
+    vint nums={1,1,2,1,1};
+    cout<<numberOfSubarrays(nums,3);
     return 0;
 }
 //by ad73prem

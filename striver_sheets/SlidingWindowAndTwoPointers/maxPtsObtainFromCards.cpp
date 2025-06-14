@@ -19,31 +19,44 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-int atMost(vector<int>& nums, int goal) {
-    int l=0,r=0;
-    int sum=0;
-    int count=0;
-    while(r<nums.size()){
-        sum+=nums[r];
+int maxScore(vector<int>& cardPoints, int k) {
+    int l=0,r=0,sum=0,minSum=INT_MAX,totalSum=0;
 
-        while(sum > goal){
-            sum=sum-nums[l];
+    while(r<cardPoints.size()){
+
+        //sliding window
+        if(r-l+1>cardPoints.size()-k){
+            sum-=cardPoints[l];
             l++;
         }
-        count+=r-l+1;
+
+        // for(int i=l;i<=r;i++){
+        //     cout<<cardPoints[i]<<" ";
+        // }
+        // cout<<endl;
+
+        sum+=cardPoints[r];
+        if(r-l+1==cardPoints.size()-k){
+            minSum=min(minSum,sum);
+            // cout<<"current sum : "<<sum<<endl;
+            // cout<<"current min sum : "<<minSum<<endl;
+        }
+
         r++;
     }
-    return count;
-}
 
-int numSubarraysWithSum(vector<int>& nums, int goal){
-    return atMost(nums,goal)-atMost(nums,goal-1);
+    for(int i=0;i<cardPoints.size();i++){
+        totalSum+=cardPoints[i];
+    }
+
+    return totalSum-minSum;
+
 }
 
 int main() {
     FAST_IO;
-    vint nums={1,0,1,0,1};
-    cout<<numSubarraysWithSum(nums,2);
+    vint pts={9,7,7,9,7,7,9};
+    cout<<maxScore(pts,7);
     return 0;
 }
 //by ad73prem

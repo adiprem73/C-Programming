@@ -19,38 +19,22 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-struct Node{
-    int data;
-    struct Node* left;
-    struct Node* right;
-
-    Node(int val){
-        data=val;
-        left=right=NULL;
-    }
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
-
-void preorder(Node* root){
-    if(root == nullptr){
-        return;
-    }
-    // Example: print the node's data
-    cout << root->data << " ";
-    preorder(root->left);
-    preorder(root->right);
-}
 
 int main() {
     FAST_IO;
-    struct Node* root= new Node(1);
-    root->left= new Node(2);
-    root->right= new Node(3);
-    root->left->left= new Node(4);
-    root->left->right= new Node(5);
-    root->right->left= new Node(6);
-    root->right->right= new Node(7);
-    preorder(root);
-    cout << endl;
+    struct TreeNode* root= new TreeNode(3);
+    root->left = new TreeNode(9);
+    root->right = new TreeNode(20);
+    root->right->left= new TreeNode(15);
+    root->right->right= new TreeNode(7);
     return 0;
 }
 //by ad73prem

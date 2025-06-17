@@ -21,8 +21,8 @@ const ll MOD = 1e9+7;
 
 struct Node{
     int data;
-    struct Node* left;
-    struct Node* right;
+    Node* left;
+    Node* right;
 
     Node(int val){
         data=val;
@@ -30,15 +30,16 @@ struct Node{
     }
 };
 
-void preorder(Node* root){
-    if(root == nullptr){
+void inOrder(Node *root){
+    if(root==NULL){
         return;
     }
-    // Example: print the node's data
-    cout << root->data << " ";
-    preorder(root->left);
-    preorder(root->right);
+    inOrder(root->left);
+    cout<<root->data<<" ";
+    inOrder(root->right);
 }
+
+
 
 int main() {
     FAST_IO;
@@ -49,7 +50,7 @@ int main() {
     root->left->right= new Node(5);
     root->right->left= new Node(6);
     root->right->right= new Node(7);
-    preorder(root);
+    inOrder(root);
     cout << endl;
     return 0;
 }

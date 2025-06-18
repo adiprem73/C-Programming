@@ -28,6 +28,40 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> ans;
+    if(root==nullptr){
+        return ans;
+    }
+
+    queue<TreeNode*> q;
+    q.push(root);
+
+    while(!q.empty()){
+        int size=q.size();
+
+        vector<int> lvl;
+
+        for(int i=0;i<size;i++){
+            TreeNode* node=q.front();
+            q.pop();
+            lvl.push_back(node->val);
+
+            if(node->left!=nullptr){
+                q.push(node->left);
+            }
+
+            if(node->right!=nullptr){
+                q.push(node->right);
+            }
+            
+        }
+        ans.push_back(lvl);
+        
+    }
+    return ans;
+}
+
 int main() {
     FAST_IO;
     struct TreeNode* root= new TreeNode(3);
@@ -35,6 +69,8 @@ int main() {
     root->right = new TreeNode(20);
     root->right->left= new TreeNode(15);
     root->right->right= new TreeNode(7);
+    vmat ans=levelOrder(root);
+    vmatprint(ans);
     return 0;
 }
 //by ad73prem

@@ -1,106 +1,54 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-struct SuffixAutomaton {
-    struct State { int next[26]; int link, len; State() { fill(begin(next), end(next), -1); link = -1; len = 0;} };
-    vector<State> st;
-    int last;
-    SuffixAutomaton(int maxlen = 10000) { st.reserve(2 * maxlen); st.push_back(State()); last = 0; }
-    void extend(char cc) {
-        int c = cc - 'a';
-        int cur = st.size(); st.push_back(State()); st[cur].len = st[last].len + 1;
-        int p = last;
-        while (p != -1 && st[p].next[c] == -1) {
-            st[p].next[c] = cur;
-            p = st[p].link;
-        }
-        if (p == -1) {
-            st[cur].link = 0;
-        } else {
-            int q = st[p].next[c];
-            if (st[p].len + 1 == st[q].len) {
-                st[cur].link = q;
-            } else {
-                int clone = st.size(); st.push_back(st[q]);
-                st[clone].len = st[p].len + 1;
-                while (p != -1 && st[p].next[c] == q) {
-                    st[p].next[c] = clone;
-                    p = st[p].link;
-                }
-                st[q].link = st[cur].link = clone;
-            }
-        }
-        last = cur;
-    }
-};
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
 
-    string X, Y;
-    if (!(cin >> X)) return 0;
-    cin >> Y;
-    ll S, R;
-    cin >> S >> R;
-    int n = X.size();
-    SuffixAutomaton samY(Y.size()), samR(Y.size());
-    for (char c: Y) samY.extend(c);
-    string revY = Y;
-    reverse(revY.begin(), revY.end());
-    for (char c: revY) samR.extend(c);
-    vector<int> L1(n), L2(n);
-    
-    for (int i = 0; i < n; ++i) {
-        int state = 0, length = 0;
-        for (int j = i; j < n; ++j) {
-            int c = X[j] - 'a';
-            if (samY.st[state].next[c] != -1) {
-                state = samY.st[state].next[c];
-                ++length;
-            } else break;
+#define ll long long
+#define f(i, a, b) for(int i=a;i<b;i++)
+#define all(x) x.begin(),x.end()
+#define vprint(v) for (auto& elem : v) cout << elem << " "; cout << endl;
+#define mprint(m) for (auto it:m) cout<<it.first<<" : "<<it.second<<endl; cout<<endl;
+#define vint vector<int>
+#define vstring vector<string>
+#define vmat vector<vector<int>>
+#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define pii pair<int,int>
+#define pll pair<ll,ll>
+#define mii map<int,int>
+#define mll map<ll,ll>
+
+const int INF = 1e9;
+const ll MOD = 1e9+7;
+
+#include <vector>
+using namespace std;
+
+
+int solution(vector<int> readings, int k) {
+    long long kl = k;
+    int count = 0;
+
+    for (int r : readings) {
+        long long x = r;
+        // skip non-positive numbers: 0 or negatives can't be k^n for k>2 (n>=0)
+        if (x <= 0) continue;
+
+        // repeatedly divide while divisible by k
+        while (x % kl == 0) {
+            x /= kl;
         }
-        L1[i] = length;
+
+        if (x == 1) ++count; // reduced to 1 => r was a power of k
     }
-    for (int i = 0; i < n; ++i) {
-        int state = 0, length = 0;
-        for (int j = i; j < n; ++j) {
-            int c = X[j] - 'a';
-            if (samR.st[state].next[c] != -1) {
-                state = samR.st[state].next[c];
-                ++length;
-            } else break;
-        }
-        L2[i] = length;
-    }
-    
-    int i = 0;
-    ll k = 0;
-    ll forced_rev = 0, tie = 0;
-    while (i < n) {
-        int l1 = L1[i], l2 = L2[i];
-        int maxl = max(l1, l2);
-        if (maxl <= 0) {
-            cout << "Impossible";
-            return 0;
-        }
-        if (l1 > l2) {
-        } else if (l2 > l1) {
-            forced_rev++;
-        } else {
-            tie++;
-        }
-        i += maxl;
-        k++;
-    }
-    ll revCount;
-    if (R > S) {
-        revCount = forced_rev;
-    } else if (R < S) {
-        revCount = forced_rev + tie;
-    } else {
-        revCount = forced_rev; 
-    }
-    ll result = (k - revCount) * S + revCount * R;
-    cout << result;
+
+    return count;
+}
+
+
+int main() {
+    FAST_IO;
+    vector<int> reading={2,4,7,8,16,32,120};
+        vector<int> reading2={10201,101,1030301,101,101};
+
+    cout<<solution(reading, 2);
     return 0;
 }
+//by ad73prem

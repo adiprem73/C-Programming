@@ -18,30 +18,34 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-long long perfectPairs(vector<int>& nums) {
-    int n=nums.size();
-    int cnt=0;
-    for(int i = 0; i < n; ++i) {
-        for(int j = i + 1; j < n; ++j) {
-            int a=nums[i];
-            int b=nums[j];
-            if((min(abs(a-b), abs(a+b))<= min(abs(a),abs(b))) && (max(abs(a-b), abs(a+b))>= max(abs(a),abs(b)))){
-                cnt++;
+int minimumMultiplications(vector<int>& arr, int start, int end) {
+    queue<pair<int,int>> q;
+    q.push({start,0});
+    vector<int> dist(100000, 1e9);
+
+    dist[start]=0;
+    int mod=100000;
+
+    while(!q.empty()){
+        int node=q.front().first;
+        int steps=q.front().second;
+        q.pop();
+
+        for(auto it: arr){
+            int num = (it*node) % mod;
+            if(steps+1< dist[num]){
+                dist[num]=steps+1;
+                if(num==end)return steps+1;
+                q.push({num, steps+1});
+
             }
         }
     }
-
-    return cnt;
 }
 
 int main() {
     FAST_IO;
-    vint nums={4,5,4,2};
-    // vector<pii> p=getDistinctPairs(nums);
-    // for(auto it:p){
-    //     cout<<it.first<<" "<<it.second<<endl;
-    // }
-    cout<<perfectPairs(nums);
+    
     return 0;
 }
 //by ad73prem

@@ -18,30 +18,23 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-long long perfectPairs(vector<int>& nums) {
-    int n=nums.size();
-    int cnt=0;
-    for(int i = 0; i < n; ++i) {
-        for(int j = i + 1; j < n; ++j) {
-            int a=nums[i];
-            int b=nums[j];
-            if((min(abs(a-b), abs(a+b))<= min(abs(a),abs(b))) && (max(abs(a-b), abs(a+b))>= max(abs(a),abs(b)))){
-                cnt++;
+void floydWarshal(vector<vector<int>> & matrix){
+    int n=matrix.size();
+    int m=matrix[0].size();
+
+    for(int k=0;k<n;k++){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                matrix[i][j]= min(matrix[i][j] , matrix[i][k] + matrix[k][j]);
             }
         }
     }
-
-    return cnt;
+    
 }
 
 int main() {
     FAST_IO;
-    vint nums={4,5,4,2};
-    // vector<pii> p=getDistinctPairs(nums);
-    // for(auto it:p){
-    //     cout<<it.first<<" "<<it.second<<endl;
-    // }
-    cout<<perfectPairs(nums);
+    
     return 0;
 }
 //by ad73prem

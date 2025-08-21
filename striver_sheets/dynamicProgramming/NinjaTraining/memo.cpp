@@ -23,16 +23,18 @@ int func(int ind, int last, vector<vector<int>> & matrix, vector<vector<int>>& d
 
     //base case
     if(ind == 0){
-        int temp;
         for(int i=0;i<3;i++){
             if(i!=last && maxi<matrix[ind][i]){
                 maxi=max(maxi, matrix[0][i]);
-                temp=i;
             }
         }
-        dp[0][temp]= maxi;
-        return;
+        return dp[0][last]= maxi;
     }
+
+    if(dp[ind][last]!= -1){
+        return dp[ind][last];
+    }
+
 
     for(int i=0;i<3;i++){
         if(i!=last){
@@ -47,13 +49,14 @@ int func(int ind, int last, vector<vector<int>> & matrix, vector<vector<int>>& d
 int ninjaTraining(vector<vector<int>>& matrix) {
     int n=matrix.size();
     vector<vector<int>> dp(n, vector<int> (4, -1)); //an Nx4 dp array to store the memoizations
-
+    return func(n-1, 3, matrix, dp);
 
 }
 
 int main() {
     FAST_IO;
-    
+    vector<vector<int>> mat={{10, 40, 70},{20, 50, 80},{30, 60, 90}};
+    cout<<ninjaTraining(mat);
     return 0;
 }
 //by ad73prem

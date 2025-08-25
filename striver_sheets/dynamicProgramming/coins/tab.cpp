@@ -57,10 +57,30 @@ int coinChange(vector<int> &coins, int amount)
 {
     int n = coins.size();
     vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
-    int ans = func(n - 1, amount, coins, dp);
-    if (ans == 1e9)
-        return -1;
-    return ans;
+
+    for(int j=0;j<=amount;j++){
+        if(j% coins[0]==0) dp[0][j]= j/ coins[0];
+        else dp[0][j]=1e9;
+    }
+
+    for(int i=0;i<n;i++){
+        dp[i][0]=0; //if the amount is zero then we dont need to have any coins hence the number of min coins is zero
+    }
+    
+    for(int i=1;i<n;i++){
+        for(int j=0;j<=amount;j++){
+            int notPick= dp[i-1][j];
+            int pick = 1e9;
+            if(coins[i]<=j){
+                pick = 1+ dp[i][j - coins[i]];
+            }
+
+            dp[i][j]= min(pick, notPick);
+        }
+    }
+    int ans=dp[n-1][amount];
+    if(ans==1e9)return -1;
+    else return ans;
 }
 
 int main()

@@ -27,48 +27,38 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9 + 7;
 
-int func(int ind, int target, vector<int> &coins, vector<vector<int>> &dp)
+int func(int ind, int amount, vector<int> &coins, vector<vector<int>>& dp)
 {
     // base case
-    //  cout<<"ind : "<<ind<<" target : "<<target<<endl;
-    if (ind == 0)
+    if (amount == 0)
+        return 1;
+    if (ind < 0)
+        return 0;
+    if (amount < 0)
+        return 0;
+
+    if(dp[ind][amount]!=-1)return dp[ind][amount];
+    int notPick = func(ind - 1, amount, coins, dp);
+    int pick = 0;
+    if (coins[ind] <= amount)
     {
-        if (target % coins[ind] == 0)
-            return (target / coins[ind]);
-        else
-            return 1e9;
+        pick = func(ind, amount - coins[ind], coins, dp);
     }
-
-    if (dp[ind][target] !=-1)
-        return dp[ind][target];
-    int notPick = 0 + func(ind - 1, target, coins, dp);
-
-    int pick = INT_MAX;
-
-    if (coins[ind] <= target)
-    {
-        pick = 1 + func(ind, target - coins[ind], coins, dp);
-    }
-
-    return dp[ind][target] = min(pick, notPick);
+    return dp[ind][amount]=pick + notPick;
 }
 
-int coinChange(vector<int> &coins, int amount)
+int change(int amount, vector<int> &coins)
 {
     int n = coins.size();
-    vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
-    int ans = func(n - 1, amount, coins, dp);
-    if (ans == 1e9)
-        return -1;
-    return ans;
+    vector<vector<int>> dp(n, vector<int> (amount+1, -1));
+    return func(n - 1, amount, coins, dp);
 }
 
 int main()
 {
     FAST_IO;
-    vint coins = {1, 2, 5};
-    int amt = 11;
-    cout << coinChange(coins, amt);
+    vint coins = {1,2,5};
+    cout << change(5, coins);
     return 0;
 }
 // by ad73prem

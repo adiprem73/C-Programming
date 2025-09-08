@@ -36,22 +36,26 @@ ListNode* reverseList(ListNode* head) {
         head=head->next;
     }
     //printing of reverse:
-    ListNode* pr=rev;
-    while(pr!=nullptr){
-        cout<<pr->val<<" -> ";
-        pr=pr->next;
-    }
+    // ListNode* pr=rev;
+    // while(pr!=nullptr){
+    //     cout<<pr->val<<" -> ";
+    //     pr=pr->next;
+    // }
     return rev;
 }
 
 ListNode* reverselist(ListNode* head){
-    ListNode* prev= nullptr;
-    ListNode* curr= head;
+    ListNode* prevnode= nullptr;
+    ListNode* currnode= head;
 
-    while(curr!=nullptr){
-        ListNode* nextnode = curr->next;//saving this before only 
+    while(currnode!=nullptr){
+        ListNode* nextnode = currnode->next;//saving this before only 
+        currnode->next= prevnode;
+        prevnode=currnode;
+        currnode= nextnode;
         
     }
+    return prevnode;
 }
 
 int main() {

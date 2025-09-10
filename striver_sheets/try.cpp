@@ -18,23 +18,59 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-int arrayPairSum(vector<int> &nums)
-{
-    sort(nums.begin(), nums.end());
-    int sum = 0;
-    for (int i = 0; i < nums.size() - 1; i = i + 2)
-    {
-        // cout<<nums[i]<<" "<<nums[i+1]<<endl;
-        sum = sum+min(nums[i], nums[i + 1]);
+bool checkZero(int n){
+    while(n>0){
+        int d=n%10;
+        if(d==0){
+            return true;
+        }
+        n=n/10;
     }
-    return sum;
+    return false;
+}
+
+// vector<int> getNoZeroIntegers(int n)
+// {
+//     vint ans;
+//     for (int i = 1; i <= n / 2; i++)
+//     {
+//         // cout<<"hello";
+//         // cout<<endl<<i<<endl;
+//         int x = n - i;
+//         string s = to_string(i);
+//         string t = to_string(x);
+//         if(s.find('0')==string ::npos && t.find('0')==string:: npos){
+//             // cout<<"hello";
+//             ans.push_back(stoi(s));
+//             ans.push_back(stoi(t));
+//             break;
+//         }
+//     }
+//     return ans;
+// }
+
+vector<int> getNoZeroIntegers(int n)
+{
+    vint ans;
+    for (int i = 1; i < n ; i++)
+    {
+        int x=n-i;
+        if(checkZero(x)==false && checkZero(i)==false){
+            // cout<<"hello";
+            ans.push_back(i);
+            ans.push_back(x);
+            break;
+        }
+    }
+    return ans;
 }
 
 int main()
 {
     FAST_IO;
     vint nums={1,4,3,2};
-    cout<<arrayPairSum(nums);
+    vprint(getNoZeroIntegers(11));
+    cout<<checkZero(9);
     return 0;
 }
 //by ad73prem

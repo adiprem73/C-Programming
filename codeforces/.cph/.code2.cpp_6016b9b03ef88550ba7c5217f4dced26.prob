@@ -1,0 +1,1 @@
+{"name":"Local: code2","url":"c:\\Users\\Aditya\\Documents\\GitHub\\C-Programming\\codeforces\\code2.cpp","tests":[{"id":1757343527919,"input":"3\n3 4\n1 2 3\n3 2\n1 2 3\n1 1000\n100000\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Aditya\\Documents\\GitHub\\C-Programming\\codeforces\\code2.cpp","group":"local","local":true}

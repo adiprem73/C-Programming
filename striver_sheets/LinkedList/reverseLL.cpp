@@ -58,10 +58,30 @@ ListNode* reverselist(ListNode* head){
     return prevnode;
 }
 
+ListNode* Reverse(ListNode* curr, ListNode* prev){
+
+    if(curr==nullptr){
+        return prev;
+    }
+    ListNode* nextNode= curr->next;
+    curr->next=prev;
+    return Reverse(nextNode, curr);
+
+}
+
+ListNode *reverselistRec(ListNode *head)
+{
+    return Reverse(head, nullptr);
+    // return head;
+}
+
 int main() {
     FAST_IO;
     ListNode *head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
-    reverseList(head);
+    ListNode* temp= reverselistRec(head);
+    while(temp!=nullptr){
+        cout<<temp->val<<" ";
+    }
     return 0;
 }
 //by ad73prem

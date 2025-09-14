@@ -18,7 +18,32 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-int main() {
+string sortVowels(string s)
+{
+    // since we only need to sort the vowels we can use counting sort or hashing
+    string order="AEIOUaeiou";
+    vector<int> hash(256, 0);
+
+    for(char ch:s){
+        if(order.find(ch)!= string::npos){
+            hash[ch]++;
+        }
+    }
+
+    int idx=0;
+    for(int i=0;i<s.length();i++){
+        if(order.find(s[i])!=string :: npos){
+            while(hash[order[idx]]==0) idx++; // we move the idx ptr to the next vowel whos count is non zero in hash... now idx has the number of the next smallest vowel
+            s[i]= order[idx];
+            hash[order[idx]]--;
+
+        }
+    }
+    return s;
+}
+
+int main()
+{
     FAST_IO;
     
     return 0;

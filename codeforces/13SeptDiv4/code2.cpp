@@ -20,7 +20,26 @@ const ll MOD = 1e9+7;
 
 int main() {
     FAST_IO;
-    
+    int t;
+    cin >> t;
+    while(t--){
+        int n,m,x,y;
+        cin>>n>>m>>x>>y;
+        vint a;
+        vint b;
+        for(int i=0;i<n;i++){
+            int s;
+            cin>>s;
+            a.push_back(s);
+        }
+        for (int i = 0; i < m; i++)
+        {
+            int s;
+            cin >> s;
+            b.push_back(s);
+        }
+        cout<<n+m<<endl;
+    }
     return 0;
 }
 //by ad73prem

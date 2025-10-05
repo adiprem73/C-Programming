@@ -18,13 +18,86 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
-vector<double> calcEquation(vector<vector<string>> &equations, vector<double> &values, vector<vector<string>> &queries)
+double djikstra(unordered_map<string, vector<pair<string, double>>>& mp, vector<string> queries){
+    int n=mp.size();
+    unordered_map<string, double> dist;
+    string source= queries[0];
+    dist[source]=0;
+
+    priority_queue<pair<double,string>, vector<pair<double,string>>, greater<pair<double,string>>> pq;
+    pq.push({0.0, source});
+    while(!pq.empty()){
+        auto it= pq.top();
+        string node= it.second;
+        double weight= it.first;
+
+        for(auto iter : mp[node]){
+            string adjnode= iter.first;
+            double adjWeight= iter.second;
+            if(dist[adjnode]>weight* adjWeight){
+                dist[adjnode]= adjWeight*weight;
+                pq.push({dist[adjnode] , adjnode});
+            }
+        }
+    }
+    return dist[queries[1]];
+}
+
+    vector<double> calcEquation(vector<vector<string>> &equations, vector<double> &values, vector<vector<string>> &queries)
 {
     int n=equations.size();
-    vector<pair<string, pair<int, string>>> g(n);
+    
+    unordered_map<string,vector<pair<string, double>>> mp;
     for (int i = 0; i <equations.size();i++){
-        g[equations[0]].first= 
+        mp[equations[i][0]].push_back({equations[i][1], (double)values[i]});
+        mp[equations[i][1]].push_back({equations[i][0], (double)1.0/values[i]});
     }
+
+    vector<double> ans;
+    ans.reserve(queries.size());
+    for(auto & q: queries){
+        string source= q[0];
+        string destination= q[1];
+        
+        if(!mp.count(source) || !mp.count(destination)) {
+            ans.push_back(-1.0);
+            continue;
+        }
+        if(source == destination) {
+            ans.push_back(1.0);
+            continue;
+        }
+
+        // now we need to perform BFS
+        unordered_set<string> vis;
+        queue<pair<string, double>> qq;
+        qq.push({source, 1.0});
+
+        double found=-1.0;
+
+        while(!qq.empty()){
+            auto it= qq.front();
+            string node= it.first;
+            double wt= it.second;
+            qq.pop();
+            if(node == destination){
+                found=wt;
+                break;
+            }
+
+            for(auto iter: mp[node]){
+                string adjnode = iter.first;
+                double adjWt = iter.second;
+                if(!vis.count(adjnode)){
+                    vis.insert(adjnode);
+                    qq.push({adjnode, wt*adjWt});
+                }
+            }
+
+        }
+        ans.push_back(found);
+    }
+    return ans;
 }
 
 int main()

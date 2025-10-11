@@ -1,47 +1,93 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long
-#define f(i, a, b) for(int i=a;i<b;i++)
-#define all(x) x.begin(),x.end()
-#define vprint(v) for (auto& elem : v) cout << elem << " "; cout << endl;
-#define mprint(m) for (auto it:m) cout<<it.first<<" : "<<it.second<<endl; cout<<endl;
-#define vint vector<int>
-#define vstring vector<string>
-#define vmat vector<vector<int>>
-#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define pii pair<int,int>
-#define pll pair<ll,ll>
-#define mii map<int,int>
-#define mll map<ll,ll>
+int mirror_map[10][5] = {
+     {0, 0, 0, 0, 0},
+     {1, 1, 1, 1, 1},
+     {5, 5, 5, 5, 2},
+     {-1, -1, 3, 3, 3},
+     {-1, -1, -1, -1, 4},
+     {2, 2, 2, 2, 5},
+     {-1, -1, -1, -1, 6},
+     {-1, -1, -1, -1, 7},
+     {8, 8, 8, 8, 8},
+     {-1, -1, -1, -1, 9}};
 
-const int INF = 1e9;
-const ll MOD = 1e9+7;
+int op_index(char c)
+{
+    
+    if (c == 'L')
+        return 0;
+    if (c == 'R')
+        return 1;
+    if (c == 'D')
+        return 2;
+    if (c == 'U')
+        return 3;
+    if (c == 'S')
+        return 4;
+    return -1; 
+}
 
-long long perfectPairs(vector<int>& nums) {
-    int n=nums.size();
-    int cnt=0;
-    for(int i = 0; i < n; ++i) {
-        for(int j = i + 1; j < n; ++j) {
-            int a=nums[i];
-            int b=nums[j];
-            if((min(abs(a-b), abs(a+b))<= min(abs(a),abs(b))) && (max(abs(a-b), abs(a+b))>= max(abs(a),abs(b)))){
-                cnt++;
-            }
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string digits, ops;
+    if (!(cin >> digits))
+        return 0;
+    cin >> ops;
+
+    int n = digits.size();
+    vector<char> kept;
+    kept.reserve(n);
+
+    for (int i = 0; i < n; ++i)
+    {
+        int d = digits[i] - '0';
+        int col = op_index(ops[i]);
+        if (col == -1)
+            continue; 
+        int mapped = mirror_map[d][col];
+        if (mapped != -1)
+        {
+            kept.push_back(char('0' + mapped));
         }
     }
 
-    return cnt;
-}
+    if (kept.empty())
+    {
+        cout << 0 << '\n';
+        return 0;
+    }
 
-int main() {
-    FAST_IO;
-    vint nums={4,5,4,2};
-    // vector<pii> p=getDistinctPairs(nums);
-    // for(auto it:p){
-    //     cout<<it.first<<" "<<it.second<<endl;
-    // }
-    cout<<perfectPairs(nums);
+    sort(kept.begin(), kept.end()); 
+
+    if (kept[0] == '0')
+    {
+        int idx_nonzero = -1;
+        for (int i = 1; i < (int)kept.size(); ++i)
+        {
+            if (kept[i] != '0')
+            {
+                idx_nonzero = i;
+                break;
+            }
+        }
+        if (idx_nonzero != -1)
+        {
+            swap(kept[0], kept[idx_nonzero]);
+        }
+        else
+        {
+            cout << 0 << '\n';
+            return 0;
+        }
+    }
+
+    for (char c : kept)
+        cout << c;
+    cout << '\n';
     return 0;
 }
-//by ad73prem

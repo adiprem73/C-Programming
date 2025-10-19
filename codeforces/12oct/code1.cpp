@@ -18,6 +18,17 @@ using namespace std;
 const int INF = 1e9;
 const ll MOD = 1e9+7;
 
+bool checkStrictInc(vector<int> nums, int a, int b){
+    // a and b are both staring and end pts.
+
+    for(int i=a;i<b;i++){
+        if(nums[i]>nums[i+1]){
+            return false;
+        }
+    }return false;
+    
+}
+
 int main() {
     FAST_IO;
     

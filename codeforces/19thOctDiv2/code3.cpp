@@ -163,7 +163,7 @@ int main()
 
         // Edge case: if answer stayed INF64, it means we couldn't form two elements divisible by same prime
         // That shouldn't happen for n>=2 because with enough increments we can raise elements to same p (primes exist),
-        // but in practice set a fallback large value:
+        // but in practice set a fallback large value: hello
         if (answer == INF64)
             answer = (int64)1e18;
 

@@ -39,6 +39,8 @@ int minCost(string colors, vector<int> &neededTime)
     return ans;
 }
 
+// hello
+
 int main()
 {
     FAST_IO;

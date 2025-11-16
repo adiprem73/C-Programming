@@ -29,30 +29,43 @@ const ll MOD = 1e9 + 7;
 
 int numberOfSubstrings(string s)
 {
-    int count = 0;
-    int n = s.length();
-    for (int i = 0; i < n; i++)
-    {
-        int n1 = 0;
-        int n0 = 0;
-        // cout<<"hello";
-        for (int j = i; j < n; j++)
-        {
-            if (s[j] == '1')
-            {
-                n1++;
-            }
-            else
-            {
-                n0++;
-            }
-            if (n1 >= n0 * n0)
-            {
-                count++;
-            }
+    int n=s.length();
+    int cnt=0;
+
+    vector<int> zro;
+
+    for(int i=0;i<n;i++){
+        if(s[i]=='0')zro.push_back(i); //this will store all the indexes of 0 in the string
+    }
+
+    if(zro.empty()) return n*(n+1)/2; //if there are no zeroes then every substring is dominant
+
+    int zro_ind=0;
+
+    for(int l=0;l<n;l++){
+        while(zro_ind< zro.size() && zro[zro_ind]<l) zro_ind++;
+
+        vector<int> valid_zro;
+
+        for(int z= zro_ind; z<zro.size() && z<(zro_ind+201);z++){
+            valid_zro.push_back(zro[z]);
+        }
+        valid_zro.push_back(n);
+
+        int zro_cnt=0;
+        int last=l;
+
+        for(auto ind : valid_zro){
+            int min_one = zro_cnt* zro_cnt;
+            int min_ind = max(l + min_one +zro_cnt -1, last);
+
+            if(min_ind < ind) cnt+= (ind - min_ind);
+
+            last = ind;
+            zro_cnt++;
         }
     }
-    return count;
+    return cnt;
 }
 
 int main()

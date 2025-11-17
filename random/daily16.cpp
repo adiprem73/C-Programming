@@ -1,45 +1,57 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-
-#define ll long long
-#define f(i, a, b) for(int i=a;i<b;i++)
-#define all(x) x.begin(),x.end()
-#define vprint(v) for (auto& elem : v) cout << elem << " "; cout << endl;
-#define mprint(m) for (auto it:m) cout<<it.first<<" : "<<it.second<<endl; cout<<endl;
-#define vint vector<int>
-#define vstring vector<string>
-#define vmat vector<vector<int>>
-#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define pii pair<int,int>
-#define pll pair<ll,ll>
-#define mii map<int,int>
-#define mll map<ll,ll>
-
-const int INF = 1e9;
-const ll MOD = 1e9+7;
-
-int numSub(string s)
-{
-    ll n= s.length();
-    ll cnt=0;
-    ll start=0;
-    for(ll i=0;i<n;i++){
-        if(s[i]=='1'){
-            ll len=0;
-            while(s[i]=='1' && i<n){
-                len++;
-                i++;
-            }
-            cnt = (cnt+(len*(len+1) / 2)%MOD)%MOD;
-        }
-    }
-    return (int)cnt;
-}
+const int MOD = 998244353;
 
 int main()
 {
-    FAST_IO;
-    cout<<numSub("0110111");
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T;
+    cin >> T;
+    while (T--)
+    {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++)
+            cin >> a[i];
+
+        // Frequency of each distinct value
+        vector<int> freq(n + 1, 0);
+        for (int x : a)
+            freq[x]++;
+        vector<int> f;
+        for (int i = 1; i <= n; i++)
+            if (freq[i])
+                f.push_back(freq[i]);
+
+        // DP: reachable multisets represented by total counts
+        vector<char> reachable(n + 1, 0);
+        reachable[0] = 1;
+
+        for (int c : f)
+        {
+            vector<char> nxt(n + 1, 0);
+            for (int i = 0; i <= n; i++)
+                if (reachable[i])
+                {
+                    for (int j = 1; j <= c; j++)
+                    {
+                        if (i + j <= n)
+                            nxt[i + j] = 1;
+                    }
+                    // also allow skipping this value entirely
+                    nxt[i] = 1;
+                }
+            reachable.swap(nxt);
+        }
+
+        int ans = 0;
+        for (int i = 1; i <= n; i++)
+            if (reachable[i])
+                ans++;
+        cout << ans % MOD << "\n";
+    }
     return 0;
 }
-//by ad73prem
